@@ -1,0 +1,15 @@
+{
+  "name": "math-stat-logscale",
+  "version": "1.0.0",
+  "description": "Approximate statistical analysis using logarithmic bins",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "keywords": [
+    "math",
+    "statistics"
+  ],
+  "author": "Konstantin Uvarin",
+  "license": "MIT"
+}
