@@ -9,6 +9,45 @@ const dice = d6.map( x => d6.map( y => x+y ) ).flat();
 
 // console.log(dice);
 
+describe ( 'Univariate accessors', () => {
+    const empty = new Univariate();
+    const one = new Univariate();
+    one.add(1);
+    const two = new Univariate();
+    two.add(-1,1);
+    const many = new Univariate();
+    many.add(...dice);
+
+    it( 'min', done => {
+        expect( empty.min() ).to.equal(undefined);
+        expect( one.min() ).to.equal( one.round(1) );
+        expect( two.min() ).to.equal( two.round(-1) );
+        expect( many.min() ).to.equal( many.round(2) );
+        done();
+    });
+    it( 'max', done => {
+        expect( empty.max() ).to.equal(undefined);
+        expect( one.max() ).to.equal( one.round(1) );
+        expect( two.max() ).to.equal( two.round(1) );
+        expect( many.max() ).to.equal( many.round(12) );
+        done();
+    });
+    it( 'count', done => {
+        expect( empty.count() ).to.equal(0);
+        expect( one.count() ).to.equal( 1 );
+        expect( two.count() ).to.equal( 2 );
+        expect( many.count() ).to.equal( 36 );
+        done();
+    });
+    it( 'mean', done => {
+        expect( empty.mean() ).to.equal(undefined);
+        expect( one.mean() ).to.equal( one.round(1) );
+        expect( two.mean() ).to.equal( 0 );
+        expect( many.mean() ).to.be.within( 6.99, 7.01 );
+        done();
+    });
+});
+
 describe ( 'Univariate', () => {
     it ('can calculate mean', done => {
         const uni = new Univariate();
