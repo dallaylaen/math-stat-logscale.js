@@ -31,4 +31,18 @@ describe( 'Binning', () => {
         expect( bin.round( 1.0001 ) ).to.equal( bin.round(1) );
         done();
     });
+
+    it ( 'has reasonable bucket size', done => {
+        const bin = new Binning({precision: 0.1, base: 1.1});
+        expect( bin.precision ).to.be.within( 0.09, 0.1 );
+        expect( bin.base ).to.be.within( 1.09, 1.1 );
+
+        for (let i = 0; i < 1000; i++) {
+            const x = i / 10;
+            expect( bin.round(x)).to.be
+                .within( Math.min( x*0.95, x-0.05 ), Math.max(x*1.05, x+0.05) );
+        };
+
+        done();
+    });
 });
