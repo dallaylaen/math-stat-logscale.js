@@ -10,6 +10,18 @@
     "math",
     "statistics"
   ],
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-align-assignments": "^1.1.2",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "mocha": "^9.1.3",
+    "nyc": "^15.1.0",
+    "webpack": "^5.65.0"
+  },
   "author": "Konstantin Uvarin",
   "license": "MIT"
 }
