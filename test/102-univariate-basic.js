@@ -55,4 +55,22 @@ describe ( 'Univariate', () => {
 
         done();
     });
+
+    it( 'does not overuse memory', done => {
+        const uni = new Univariate();
+        for (let i = 0; i < 10000; i++) {
+            uni.add( Math.exp(i/10000) );
+        };
+        expect( uni.data().length ).to.be.within( 1000, 1010 );
+        done();
+    });
+
+    it( 'does not overuse memory (1.01)', done => {
+        const uni = new Univariate({base:1.01});
+        for (let i = 0; i < 10000; i++) {
+            uni.add( Math.exp(i/10000) );
+        };
+        expect( uni.data().length ).to.be.within( 100, 105 );
+        done();
+    });
 });
