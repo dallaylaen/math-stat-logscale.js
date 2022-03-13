@@ -20,16 +20,16 @@ describe ( 'Univariate accessors', () => {
 
     it( 'min', done => {
         expect( empty.min() ).to.equal(undefined);
-        expect( one.min() ).to.equal( one.round(1) );
-        expect( two.min() ).to.equal( two.round(-1) );
-        expect( many.min() ).to.equal( many.round(2) );
+        expect( one.min() ).to.equal( one.lower(1) );
+        expect( two.min() ).to.equal( two.lower(-1) );
+        expect( many.min() ).to.equal( many.lower(2) );
         done();
     });
     it( 'max', done => {
         expect( empty.max() ).to.equal(undefined);
-        expect( one.max() ).to.equal( one.round(1) );
-        expect( two.max() ).to.equal( two.round(1) );
-        expect( many.max() ).to.equal( many.round(12) );
+        expect( one.max() ).to.equal( one.upper(1) );
+        expect( two.max() ).to.equal( two.upper(1) );
+        expect( many.max() ).to.equal( many.upper(12) );
         done();
     });
     it( 'count', done => {
