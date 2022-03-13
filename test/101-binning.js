@@ -29,6 +29,7 @@ describe( 'Binning', () => {
     it ( 'flattens data', done => {
         const bin = new Binning();
         expect( bin.round( 1.0001 ) ).to.equal( bin.round(1) );
+
         done();
     });
 
@@ -45,4 +46,28 @@ describe( 'Binning', () => {
 
         done();
     });
+
+    it( 'can round up and down', done => {
+        const bin = new Binning({precision: 0.1, base: 1.1});
+
+        const input = [ 0, 0.01, 0.1, 1, -1, 1.5, 2.1, 10001 ];
+
+        input.forEach( x => {
+            expect( bin.round(x) ).to.be.within( bin.lower(x), bin.upper(x));
+            expect( x ).to.be.within( bin.lower(x), bin.upper(x));
+        });
+
+        done();
+    });
+
+    it( 'can round up and down adjacent bins', done => {
+        const bin = new Binning({precision: 0.1, base: 1.1});
+
+        expect( bin.upper(0) ).to.equal( bin.lower( 0.1 ));
+        expect( bin.upper(0.1) ).to.equal( bin.lower( 0.2 ));
+        expect( bin.upper(1) - bin.lower( 1.1 ) ).to.be.within( -1e-9,1e-9 );
+        expect( bin.upper(1000) - bin.lower( 1100 ) ).to.be.within( -1e-9,1e-9 );
+        done();
+    });
+
 });
