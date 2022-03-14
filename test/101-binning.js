@@ -35,8 +35,8 @@ describe( 'Binning', () => {
 
     it ( 'has reasonable bucket size', done => {
         const bin = new Binning({precision: 0.1, base: 1.1});
-        expect( bin.precision ).to.be.within( 0.09, 0.1 );
-        expect( bin.base ).to.be.within( 1.09, 1.1 );
+        expect( bin.getPrecision() ).to.be.within( 0.09, 0.1 );
+        expect( bin.getBase() ).to.be.within( 1.09, 1.1 );
 
         for (let i = 0; i < 1000; i++) {
             const x = i / 10;
