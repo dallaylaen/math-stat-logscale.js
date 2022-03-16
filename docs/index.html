@@ -6,7 +6,7 @@
     <script src="js/logscale-stat.js"></script>
 </head>
 <body>
-<canvas id="draw"></canvas>
+<canvas id="draw" stype="border: solid red 1px"></canvas>
 
 <pre id="output"></pre>
 
@@ -16,21 +16,22 @@
 </div>
 
 <script>
-    const rexNum = /[-+]?(\d+\.?|\d*\.\d+)(E[-+]?\d+)?/ig; // TODO find known
+    const rexNum = /[-+]?(\d*\.\d+|\d+\.?)(E[-+]?\d+)?/ig; // TODO find known
 
     const out = document.getElementById('output');
     const input = document.getElementById('input');
+    const canvas = document.getElementById('draw');
     let stat = new logstat.Univariate();
 
-    console.log(input);
+
 
     function add() {
         const raw = input.value;
 
         const num = raw.match( rexNum ).map(s=>Number.parseFloat(s));
-        console.log(num);
         stat.add(...num);
         show();
+        draw();
     };
 
     function reset() {
@@ -47,6 +48,34 @@
         out.innerHTML += 'stdev: '+stat.stdev()+'\n';
         out.innerHTML += 'median: '+stat.quantile(0.5)+'\n';
     };
+
+    function draw() {
+        const height = Math.floor(Number.parseInt(screen.height) / 5);
+        const width  = Math.floor(Number.parseInt(screen.width) * 0.8) - 10;
+
+        canvas.height = height;
+        canvas.width = width;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if(!stat.count())
+            return;
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'orange';
+
+        const hist = stat.histogram({count:width, scale:height});
+
+        console.log(hist);
+        for (let i = 0; i<width; i++) {
+            ctx.beginPath();
+            ctx.moveTo( i, height );
+            ctx.lineTo( i, height - hist[i][0] );
+            ctx.stroke();
+        }
+    };
+    
 </script>
 </body>
 </html>
