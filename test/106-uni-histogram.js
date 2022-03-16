@@ -29,7 +29,6 @@ describe( 'Univariate.histogram', () => {
 
     it( 'produces exact values', done => {
         const uni = new Univariate();
-
         uni.add( 1, 2, 3, 4, 5 );
 
         const hist = uni.histogram( {count: 5} );
@@ -38,5 +37,18 @@ describe( 'Univariate.histogram', () => {
             expect( hist[i][0] ).to.equal(1);
 
         done();
+    });
+
+    it( 'scales', done => {
+        const uni = new Univariate();
+        uni.add( 1, 2, 3, 4, 5 );
+        
+        const hist = uni.histogram( {count: 5, scale: 100} );
+        expect( hist.length ).to.equal( 5 );
+        for( let i = 0; i<hist.length; i++)
+            expect( hist[i][0] ).to.equal(100);
+
+        done();
+        
     });
 });
