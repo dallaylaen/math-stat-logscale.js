@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Univariate statistical analysis</title>
+    <script src="js/logscale-stat.js"></script>
+</head>
+<body>
+<canvas id="draw"></canvas>
+
+<pre id="output"></pre>
+
+<div id="add-numbers">
+<textarea id="input"></textarea><br>
+<button onclick="return add()">Add numbers</button>
+</div>
+
+<script>
+    const rexNum = /[-+]?(\d+\.?|\d*\.\d+)(E[-+]?\d+)?/ig; // TODO find known
+
+    const out = document.getElementById('output');
+    const input = document.getElementById('input');
+    let stat = new logstat.Univariate();
+
+    console.log(input);
+
+    function add() {
+        const raw = input.value;
+
+        const num = raw.match( rexNum ).map(s=>Number.parseFloat(s));
+        console.log(num);
+        stat.add(...num);
+        show();
+    };
+
+    function reset() {
+        stat = new logstat.Univariate();
+        // TODO also specify precision
+    };
+
+    function show() {
+        out.innerHTML = '';
+        out.innerHTML += 'count: '+stat.count()+'\n';
+        out.innerHTML += 'min: '+stat.min()+'\n';
+        out.innerHTML += 'max: '+stat.max()+'\n';
+        out.innerHTML += 'mean: '+stat.mean()+'\n';
+        out.innerHTML += 'stdev: '+stat.stdev()+'\n';
+        out.innerHTML += 'median: '+stat.quantile(0.5)+'\n';
+    };
+</script>
+</body>
+</html>
