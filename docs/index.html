@@ -23,8 +23,6 @@
     const canvas = document.getElementById('draw');
     let stat = new logstat.Univariate();
 
-
-
     function add() {
         const raw = input.value;
 
@@ -32,6 +30,7 @@
         stat.add(...num);
         show();
         draw();
+        input.value = '';
     };
 
     function reset() {
@@ -67,7 +66,6 @@
 
         const hist = stat.histogram({count:width, scale:height});
 
-        console.log(hist);
         for (let i = 0; i<width; i++) {
             ctx.beginPath();
             ctx.moveTo( i, height );
