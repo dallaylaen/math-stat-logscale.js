@@ -68,7 +68,7 @@ describe ( 'Univariate', () => {
         const uni = new Univariate();
         uni.add( ...dice );
 
-        const weighted = uni.data();
+        const weighted = uni.getBins();
 
         expect( weighted.map( x => x[1] ) ).to.deep.equal(
             [ 1,2,3,4,5,6,5,4,3,2,1 ] );
@@ -77,7 +77,7 @@ describe ( 'Univariate', () => {
 
         const uni2 = new Univariate();
         uni2.addWeighted( weighted );
-        expect( uni2.data() ).to.deep.equal( weighted );
+        expect( uni2.getBins() ).to.deep.equal( weighted );
 
         done();
     });
@@ -97,7 +97,7 @@ describe ( 'Univariate', () => {
         uni.add( 3,4,5 );
 
         // TODO validate
-        // console.log( uni.data() );
+        // console.log( uni.getBins() );
 
         done();
     });
@@ -107,7 +107,7 @@ describe ( 'Univariate', () => {
         for (let i = 0; i < 10000; i++) {
             uni.add( Math.exp(i/10000) );
         };
-        expect( uni.data().length ).to.be.within( 1000, 1010 );
+        expect( uni.getBins().length ).to.be.within( 1000, 1010 );
         done();
     });
 
@@ -116,7 +116,7 @@ describe ( 'Univariate', () => {
         for (let i = 0; i < 10000; i++) {
             uni.add( Math.exp(i/10000) );
         };
-        expect( uni.data().length ).to.be.within( 100, 105 );
+        expect( uni.getBins().length ).to.be.within( 100, 105 );
         done();
     });
 });
