@@ -21,7 +21,7 @@ describe( 'Univariate.histogram', () => {
 
         for (let i = 1; i<hist.length; i++) {
             expect( hist[i-1][2] ).to.equal( hist[i][1] );
-            expect( hist[i][0] - hist[i-1][0] ).to.be.within( -1, 1 );
+            expect( hist[i][0] - 100 ).to.be.within( -1, 1 );
         }
 
         done();

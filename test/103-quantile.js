@@ -45,7 +45,7 @@ describe( 'Univariate.quantile', () => {
         expect( uni.quantile(0) ).to.be.within(0.99,1.01);
         expect( uni.quantile(0.1) ).to.be.within(1.99,2.01);
         expect( uni.quantile(0.5) ).to.be.within(9.99,10.01);
-        expect( uni.quantile(0.9) ).to.be.within(17.99,18.01);
+        expect( uni.quantile(0.9) ).to.be.within(17.95,18.05);
         expect( uni.quantile(1) ).to.be.within(18.99,19.02);
 
 
