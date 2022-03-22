@@ -11,31 +11,41 @@
 <pre id="output"></pre>
 
 <div id="add-numbers">
-<textarea id="input"></textarea><br>
-<button onclick="return add()">Add numbers</button>
+<p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt> to add numbers
+to the dataset.</p>
+<textarea id="code" style="width: 80%; height: 10em">
+for( let i = 0; i<10000; i++) {
+    stat.add(-Math.log(Math.random()));
+};
+</textarea><br>
+<button onclick="return run()">Run code</button>
+<button onclick="return reset()">Reset stat</button>
 </div>
 
 <script>
-    const rexNum = /[-+]?(\d*\.\d+|\d+\.?)(E[-+]?\d+)?/ig; // TODO find known
-
     const out = document.getElementById('output');
-    const input = document.getElementById('input');
+    const userCode = document.getElementById('code');
     const canvas = document.getElementById('draw');
-    let stat = new logstat.Univariate();
+    let stat;
 
-    function add() {
-        const raw = input.value;
+    reset();
 
-        const num = raw.match( rexNum ).map(s=>Number.parseFloat(s));
-        stat.add(...num);
+    function run() {
+        const code = userCode.value;
+
+        // TODO isolate via web workers if available
+        // TODO fancy error msg
+        eval(code);
+
         show();
         draw();
-        input.value = '';
     };
 
     function reset() {
         stat = new logstat.Univariate();
         // TODO also specify precision
+        show();
+        draw();
     };
 
     function show() {
@@ -57,6 +67,7 @@
 
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.stroke();
 
         if(!stat.count())
             return;
