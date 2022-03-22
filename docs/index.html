@@ -11,21 +11,24 @@
 <pre id="output"></pre>
 
 <div id="add-numbers">
-<p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt> to add numbers
-to the dataset.</p>
+<p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt>
+to add numbers to the dataset
+and <tt>data</tt> to refer to uploaded file content (if any).</p>
 <textarea id="code" style="width: 80%; height: 10em">
 for( let i = 0; i<10000; i++) {
     stat.add(-Math.log(Math.random()));
 };
 </textarea><br>
+<input type="file" id="file">
 <button onclick="return run()">Run code</button>
 <button onclick="return reset()">Reset stat</button>
 </div>
 
 <script>
-    const out = document.getElementById('output');
+    const out      = document.getElementById('output');
     const userCode = document.getElementById('code');
-    const canvas = document.getElementById('draw');
+    const canvas   = document.getElementById('draw');
+    const inFile   = document.getElementById('file');
     let stat;
 
     reset();
@@ -35,18 +38,24 @@ for( let i = 0; i<10000; i++) {
 
         // TODO isolate via web workers if available
         // TODO fancy error msg
-        eval(code);
 
-        show();
-        draw();
-    };
+        const promise = inFile.files[0] ? inFile.files[0].text() : Promise.resolve('');
+
+        promise.then( resolve => {
+            let data = '' + resolve;
+            eval(code);
+            show();
+            draw();
+        });
+    }
+
 
     function reset() {
         stat = new logstat.Univariate();
         // TODO also specify precision
         show();
         draw();
-    };
+    }
 
     function show() {
         out.innerHTML = '';
@@ -56,7 +65,7 @@ for( let i = 0; i<10000; i++) {
         out.innerHTML += 'mean: '+stat.mean()+'\n';
         out.innerHTML += 'stdev: '+stat.stdev()+'\n';
         out.innerHTML += 'median: '+stat.quantile(0.5)+'\n';
-    };
+    }
 
     function draw() {
         const height = Math.floor(Number.parseInt(screen.height) / 5);
@@ -83,7 +92,7 @@ for( let i = 0; i<10000; i++) {
             ctx.lineTo( i, height - hist[i][0] );
             ctx.stroke();
         }
-    };
+    }
     
 </script>
 </body>
