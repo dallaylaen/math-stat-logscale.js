@@ -47,8 +47,8 @@ describe ( 'Univariate accessors', () => {
         done();
     });
     it( 'stdev', done => {
-        expect( empty.stdev() ).to.equal( Infinity );
-        expect( one.stdev() ).to.equal( Infinity );
+        expect( empty.stdev() ).to.equal( undefined );
+        expect( one.stdev() ).to.equal( undefined );
         expect( two.stdev() - Math.sqrt(2)).to.be.within( -0.01, 0.01 );
         expect( many.stdev() - 2.45 ).to.be.within( -0.01, 0.01 );
         done();
