@@ -18,8 +18,10 @@ describe( 'shorten', () => {
         [-1.11, -1.08],
     ];
 
+    const bin = new Binning();
+
     for( let pair of sample ) {
-        const x = shorten(pair[0], pair[1]);
+        const x = bin.shorten(pair[0], pair[1]);
         it ('shortest number in ('+pair[0]+', '+pair[1]+') = '+x, done => {
             expect( x ).to.be.within( ...pair );
             expect( len(x) ).to.be.within( 1, len(pair[0]) );
