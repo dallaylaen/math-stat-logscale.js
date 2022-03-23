@@ -6,8 +6,7 @@
     <script src="js/logscale-stat.js"></script>
 </head>
 <body>
-<canvas id="draw" stype="border: solid red 1px"></canvas>
-
+<canvas id="draw" style="border: solid red 1px"></canvas>
 <pre id="output"></pre>
 
 <div id="add-numbers">
@@ -71,8 +70,8 @@ for( let i = 0; i<10000; i++) {
         const height = Math.floor(Number.parseInt(screen.height) / 5);
         const width  = Math.floor(Number.parseInt(screen.width) * 0.8) - 10;
 
-        canvas.height = height;
-        canvas.width = width;
+        canvas.height = height + 16;
+        canvas.width = width + 48;
 
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -88,9 +87,22 @@ for( let i = 0; i<10000; i++) {
 
         for (let i = 0; i<width; i++) {
             ctx.beginPath();
-            ctx.moveTo( i, height );
-            ctx.lineTo( i, height - hist[i][0] );
+            ctx.moveTo( i + 8, height );
+            ctx.lineTo( i + 8, height - Math.ceil(hist[i][0]) );
             ctx.stroke();
+        }
+
+        for (let i = 0; i<11; i++) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.font = "8px Sans";
+            const label = stat.shorten(stat.min() + (stat.max() - stat.min())*i/10);
+            ctx.setLineDash([1,3]);
+            ctx.moveTo( width*i/10 + 8, canvas.height-12 );
+            ctx.lineTo( width*i/10 + 8, 0 );
+            ctx.stroke();
+            ctx.setLineDash([1,0]);
+            ctx.strokeText( label, width*i/10 + 8, canvas.height-1 );
         }
     }
     
