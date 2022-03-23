@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 AUTOFILES="docs/js/logscale-stat.js docs/js/logscale-stat.min.js docs/man"
 
 modified() {
@@ -7,6 +9,8 @@ modified() {
     echo $LIST
     [ -z "$LIST" ]
 }
+
+./aux/browserify.sh
 
 CHANGED=$(modified $AUTOFILES)
 
