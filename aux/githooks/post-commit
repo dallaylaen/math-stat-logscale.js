@@ -7,7 +7,6 @@ AUTOFILES="docs/js/logscale-stat.js docs/js/logscale-stat.min.js docs/man"
 modified() {
     LIST=$(git status --porcelain -- "$@" | grep '^ *[AM]' | awk '{print $2}')
     echo $LIST
-    [ -z "$LIST" ]
 }
 
 ./aux/browserify.sh
