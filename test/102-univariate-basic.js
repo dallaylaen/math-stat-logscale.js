@@ -85,7 +85,7 @@ describe ( 'Univariate', () => {
     it( 'can find expected values', done => {
         const uni = new Univariate();
         uni.add( ...dice );
-        expect( uni.expected( x => x - 7 ) ).to.be.within( -0.1, 0.1 );
+        expect( uni.E( x => x - 7 ) ).to.be.within( -0.1, 0.1 );
 
         done();
     });
