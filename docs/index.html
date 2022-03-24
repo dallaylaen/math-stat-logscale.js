@@ -8,8 +8,15 @@
 <body>
 <canvas id="draw" style="border: solid red 1px"></canvas>
 
-<table id="summary">
+<table>
+<tbody id="summary">
+</tbody>
 </table>
+<div>
+<select id="query" onchange="toggleQueryParam()"></select>
+<input id="query-param" style="display: none">
+<button onclick="addQuery()">add...</button>
+</div>
 
 <div id="add-numbers">
 <p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt>
@@ -30,9 +37,59 @@ for( let i = 0; i<10000; i++) {
     const userCode      = document.getElementById('code');
     const canvas        = document.getElementById('draw');
     const inFile        = document.getElementById('file');
+    const selectQuery   = document.getElementById('query');
+    const queryParam    = document.getElementById('query-param');
 
     let stat;
     const summary = [];
+
+    const availSeed = [
+        [ 'count' ],
+        [ 'min' ],
+        [ 'max' ],
+        [ 'mean' ],
+        [ 'stdev', 'standard deviation' ],
+        [ 'quantile', 'quantile(0..1)', 0, 1 ],
+        [ 'cdf', 'P(value&lt;x)', -Infinity, Infinity ],
+        [ 'E', 'E(function)', 'function' ],
+    ];
+    const avail = {};
+
+    availSeed.forEach( spec => {
+        avail[spec[0]] = spec;
+        const name = spec[0];
+        const label = spec[1] || name;
+        selectQuery.innerHTML += '<option value="'+name+'">'+label+'</option>';
+    });
+
+    function toggleQueryParam() {
+        const name = selectQuery.value;
+        if (avail[name][2] === undefined)
+            queryParam.style = 'display: none';
+        else
+            queryParam.style = '';
+        queryParam.value = '';
+    }
+
+    function addQuery() {
+        const name = selectQuery.value;
+        const spec = avail[name];
+        let param;
+        if (spec[2] !== undefined) {
+            param = queryParam.value;
+            console.log('raw param = ', param);
+            if (spec[2] === 'function')
+                param = eval(param);
+            else {
+                param = Number.parseFloat(param);
+                if (!(param >= spec[2] && param <= spec[3]))
+                    return; // out of range
+            }
+        }
+        console.log('got param = ', param);
+        addSummary(name, param);
+        show();
+    }
 
     function run() {
         const code = userCode.value;
@@ -61,17 +118,29 @@ for( let i = 0; i<10000; i++) {
         summary.push( [ name, param ] );
     }
 
+    function delSummary(n) {
+        summary.splice(n,1);
+        show();
+        return false;
+    }
+
     function show() {
         summaryTable.innerHTML = '';
-        summary.forEach( pair => {
-            const [name, param] = pair;
-            summaryTable.innerHTML += '<tr><td align="right">'+name
+        for (let i = 0; i<summary.length; i++) {
+            const [name, param] = summary[i];
+            const tr = document.createElement('tr');
+
+            tr.innerHTML = '<td align="right">'+name
                 +'</td><td>'
                 +(param !== undefined ? '('+param+')' : '')
                 +'</td><td>'
                 +stat.neat[name](param)
-                +'</td></tr>';
-        });
+                +'</td><td>'
+                +'<a href="#" onclick="return delSummary('+i+')">[x]</a>'
+                +'</td>';
+
+            summaryTable.appendChild(tr);
+        }
     }
 
     const graphColoring = [
