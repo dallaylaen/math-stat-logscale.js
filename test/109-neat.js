@@ -7,9 +7,18 @@ describe ( 'Univariate.neat', () => {
     const uni = new Univariate();
     uni.add(1,2,3,4,5);
 
-    it( 'proxies min,max,etc', done => {
-        expect( uni.neat.min() ).to.equal( uni.min() );
-        expect( uni.neat.max() ).to.equal( uni.max() );
+    it( 'proxies count', done => {
+        expect( uni.neat.count() ).to.equal( uni.count() );
+        done();
+    });
+
+    it( 'shortens min', done => {
+        expect( uni.lower(uni.neat.min()) ).to.equal( uni.min() );
+        done();
+    });
+
+    it( 'shortens max', done => {
+        expect( uni.upper(uni.neat.max()) ).to.equal( uni.max() );
         done();
     });
 
