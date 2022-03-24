@@ -113,7 +113,7 @@ for( let i = 0; i<10000; i++) {
 
         const min = stat.min();
         const step = (stat.max() - min) / width;
-        const num2pic = x => (x - min) / step;
+        const num2pic = x => (x - min) / step + 8;
 
         ctx.lineWidth = 1;
 
