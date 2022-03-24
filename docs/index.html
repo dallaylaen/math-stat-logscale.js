@@ -7,7 +7,9 @@
 </head>
 <body>
 <canvas id="draw" style="border: solid red 1px"></canvas>
-<pre id="output"></pre>
+
+<table id="summary">
+</table>
 
 <div id="add-numbers">
 <p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt>
@@ -24,12 +26,20 @@ for( let i = 0; i<10000; i++) {
 </div>
 
 <script>
-    const out      = document.getElementById('output');
-    const userCode = document.getElementById('code');
-    const canvas   = document.getElementById('draw');
-    const inFile   = document.getElementById('file');
-    let stat;
+    const summaryTable  = document.getElementById('summary');
+    const userCode      = document.getElementById('code');
+    const canvas        = document.getElementById('draw');
+    const inFile        = document.getElementById('file');
 
+    let stat;
+    const summary = [];
+
+    addSummary( 'count' );
+    addSummary( 'min' );
+    addSummary( 'max' );
+    addSummary( 'mean' );
+    addSummary( 'stdev' );
+    addSummary( 'quantile', 0.5 );
     reset();
 
     function run() {
@@ -48,7 +58,6 @@ for( let i = 0; i<10000; i++) {
         });
     }
 
-
     function reset() {
         stat = new logstat.Univariate();
         // TODO also specify precision
@@ -56,14 +65,22 @@ for( let i = 0; i<10000; i++) {
         draw();
     }
 
+    function addSummary (name, param) {
+        summary.push( [ name, param ] );
+    }
+
     function show() {
-        out.innerHTML = '';
-        out.innerHTML += 'count: '+stat.count()+'\n';
-        out.innerHTML += 'min: '+stat.min()+'\n';
-        out.innerHTML += 'max: '+stat.max()+'\n';
-        out.innerHTML += 'mean: '+stat.mean()+'\n';
-        out.innerHTML += 'stdev: '+stat.stdev()+'\n';
-        out.innerHTML += 'median: '+stat.quantile(0.5)+'\n';
+        summaryTable.innerHTML = '';
+        summary.forEach( pair => {
+            const [name, param] = pair;
+            console.log( name, param );
+            summaryTable.innerHTML += '<tr><td align="right">'+name
+                +'</td><td>'
+                +(param !== undefined ? '('+param+')' : '')
+                +'</td><td>'
+                +stat.neat[name](param)
+                +'</td></tr>';
+        });
     }
 
     const graphColoring = [
