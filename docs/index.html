@@ -161,8 +161,8 @@ for( let i = 0; i<10000; i++) {
     const em = 8;
 
     function draw() {
-        const height = Math.floor(Number.parseInt(screen.height) / 5);
-        const width  = Math.floor(Number.parseInt(screen.width) * 0.8) - 10;
+        const height = Math.floor(Number.parseInt(window.innerHeight) / 5);
+        const width  = Math.floor(Number.parseInt(window.innerWidth) * 0.8) - 10;
 
         canvas.height = height + em*2;
         canvas.width = width + em*6;
