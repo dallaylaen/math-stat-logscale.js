@@ -77,7 +77,6 @@ for( let i = 0; i<10000; i++) {
         let param;
         if (spec[2] !== undefined) {
             param = queryParam.value;
-            console.log('raw param = ', param);
             if (spec[2] === 'function')
                 param = eval(param);
             else {
@@ -86,7 +85,6 @@ for( let i = 0; i<10000; i++) {
                     return; // out of range
             }
         }
-        console.log('got param = ', param);
         addSummary(name, param);
         show();
     }
@@ -130,11 +128,18 @@ for( let i = 0; i<10000; i++) {
             const [name, param] = summary[i];
             const tr = document.createElement('tr');
 
+            let value;
+            try {
+                value = stat.neat[name](param)
+            } catch (e) {
+                value = e;
+            }
+
             tr.innerHTML = '<td align="right">'+name
                 +'</td><td>'
                 +(param !== undefined ? '('+param+')' : '')
                 +'</td><td>'
-                +stat.neat[name](param)
+                +value
                 +'</td><td>'
                 +'<a href="#" onclick="return delSummary('+i+')">[x]</a>'
                 +'</td>';
