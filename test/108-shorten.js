@@ -44,7 +44,7 @@ describe( 'shorten', () => {
             done();
         });
     };
-    
+
 });
 
 describe( 'Binning.shorten', () => {

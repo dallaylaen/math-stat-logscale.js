@@ -30,9 +30,18 @@ describe ( 'Univariate.neat', () => {
     });
 
     it( 'handles median', done => {
-        const plain = uni.quantile(0.5);
-        const neat  = uni.neat.quantile(0.5);
+        const plain = uni.median();
+        const neat  = uni.neat.median();
         expect( neat ).to.be.within( uni.lower(plain), uni.upper(plain) );
+        expect( neat ).to.equal(3);
+        done();
+    });
+
+    it( 'handles percentile', done => {
+        const plain = uni.percentile(60);
+        const neat  = uni.neat.percentile(60);
+        expect( neat ).to.be.within( uni.lower(plain), uni.upper(plain) );
+        expect( neat ).to.equal( uni.neat.quantile(0.6) );
         done();
     });
 });

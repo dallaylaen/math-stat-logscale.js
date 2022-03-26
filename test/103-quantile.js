@@ -38,7 +38,6 @@ describe( 'Univariate.quantile', () => {
 
     it ('works for many buckets', done => {
         const uni = new Univariate();
-
         for (let i = 1; i < 20; i++ )
             uni.add(i);
 
@@ -48,6 +47,19 @@ describe( 'Univariate.quantile', () => {
         expect( uni.quantile(0.9) ).to.be.within(17.95,18.05);
         expect( uni.quantile(1) ).to.be.within(18.99,19.02);
 
+        done();
+    });
+
+    it ('works the same as percentile', done => {
+        const uni = new Univariate();
+        for (let i = 1; i < 20; i++ )
+            uni.add(i);
+
+        expect( uni.quantile(0) ).to.equal( uni.percentile(0) );
+        expect( uni.quantile(0.1) ).to.equal( uni.percentile(10) );
+        expect( uni.quantile(0.5) ).to.equal( uni.percentile(50) );
+        expect( uni.quantile(0.9) ).to.equal( uni.percentile(90) );
+        expect( uni.quantile(1) ).to.equal( uni.percentile(100) );
 
         done();
     });
