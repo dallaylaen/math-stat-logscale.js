@@ -22,9 +22,12 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
 </div>
 
 <div id="add-numbers">
-<p style="color:grey">Enter code here. Use <tt>stat.add( number, ... )</tt>
-to add numbers to the dataset
-and <tt>data</tt> to refer to uploaded file content (if any).</p>
+<p style="color:grey; width: 80%">
+    Enter code here. Use <tt>stat.add( number, ... )</tt>
+    to add numbers to the dataset
+    and <tt>data</tt> to refer to uploaded file content (if any).
+    See <a href="man/Univariate.html">the manual</a> for the stat object.
+</p>
 <textarea id="code" style="width: 80%; height: 10em">
 for( let i = 0; i<10000; i++) {
     stat.add(-Math.log(Math.random()));
@@ -33,10 +36,6 @@ for( let i = 0; i<10000; i++) {
 <input type="file" id="file">
 <button onclick="return run()">Run code</button>
 <button onclick="return reset()">Reset stat</button>
-</div>
-
-<div>
-See <a href="man/Univariate.html">the manual</a> for the stat object.
 </div>
 
 <script>
@@ -56,6 +55,8 @@ See <a href="man/Univariate.html">the manual</a> for the stat object.
         [ 'max' ],
         [ 'mean' ],
         [ 'stdev', 'standard deviation' ],
+        [ 'moment', 'E((x-mean)**(power))', -Infinity, Infinity ],
+        [ 'momentAbs', 'E(|x-mean|**(power))', -Infinity, Infinity ],
         [ 'quantile', 'quantile(0..1)', 0, 1 ],
         [ 'cdf', 'P(value&lt;x)', -Infinity, Infinity ],
         [ 'E', 'E(function)', 'function' ],
