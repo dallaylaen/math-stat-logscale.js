@@ -5,6 +5,7 @@
     border: 1px solid;
     padding-left: 2em;
     padding-right: 2em;
+    margin: 2px;
 }
 
 .nav :hover {
