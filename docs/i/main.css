@@ -1,0 +1,12 @@
+.nav {
+    display: inline-block;
+    text-decoration: none;
+    color: lightblue;
+    border: 1px solid;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.nav :hover {
+    color: orange;
+}

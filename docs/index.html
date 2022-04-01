@@ -4,11 +4,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Univariate statistical analysis</title>
     <script src="js/logscale-stat.js"></script>
+    <link rel="stylesheet" href="i/main.css">
 </head>
 <body>
 <div>
 Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">logscale statistics library</a>.
 </div>
+<div>
+    <a class="nav" href="#" onclick="saveStat()">save</a>
+    <a class="nav" href="#" onclick="loadStat()">load</a>
+</div>
+
 <canvas id="draw" style="border: solid red 1px"></canvas>
 
 <table>
@@ -69,6 +75,18 @@ for( let i = 0; i<10000; i++) {
         const label = spec[1] || name;
         selectQuery.innerHTML += '<option value="'+name+'">'+label+'</option>';
     });
+
+    function saveStat() {
+        download('stat-data.json', JSON.stringify(stat), 'application/json');
+    }
+
+    function loadStat() {
+        upload(raw => {
+            stat = new logstat.Univariate( JSON.parse( raw ) );
+            show();
+            draw();
+        });
+    }
 
     function toggleQueryParam() {
         const name = selectQuery.value;
@@ -256,6 +274,40 @@ for( let i = 0; i<10000; i++) {
     addSummary( 'stdev' );
     addSummary( 'quantile', 0.5 );
     reset();
+
+</script>
+<script>
+
+    /* Utility functions */
+
+    function download(filename, content, ctype) {
+        if (!ctype)
+            ctype = 'application/octet-stream';
+        // TODO also add charset=utf-8 unless binary
+
+        // Shamelessly stolen from https://stackoverflow.com/a/30800715/280449
+        const dataStr = 'data:'+ctype+','+encodeURIComponent( content );
+        const aHref = window.document.createElement('a');
+        aHref.setAttribute("href",     dataStr);
+        aHref.setAttribute("download", filename);
+        window.document.body.appendChild(aHref); // required for firefox
+        aHref.click();
+        aHref.remove();
+    }
+
+    function upload(done) {
+        const inputFile = window.document.createElement('input');
+        inputFile.setAttribute('type',   'file');
+        inputFile.setAttribute('style',  'display: none');
+        inputFile.oninput = function() {
+            this.files[0].text().then( result => {
+                inputFile.remove();
+                done( result );
+            });
+        };
+        window.document.body.appendChild(inputFile); // required for firefox
+        inputFile.click();
+    }
 
 </script>
 </body>
