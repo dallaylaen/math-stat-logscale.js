@@ -53,7 +53,7 @@ for( let i = 0; i<10000; i++) {
     const queryParam    = document.getElementById('query-param');
 
     let stat;
-    const summary = [];
+    let summary = [];
 
     const availSeed = [
         [ 'count' ],
@@ -77,12 +77,20 @@ for( let i = 0; i<10000; i++) {
     });
 
     function saveStat() {
-        download('stat-data.json', JSON.stringify(stat), 'application/json');
+        const data = {
+            sample:  stat,
+            summary: summary,
+            code:    userCode.value,
+        };
+        download('stat-data.json', JSON.stringify(data), 'application/json');
     }
 
     function loadStat() {
         upload(raw => {
-            stat = new logstat.Univariate( JSON.parse( raw ) );
+            const state = JSON.parse( raw );
+            stat = new logstat.Univariate( state.sample );
+            userCode.value = state.code;
+            summary = state.summary;
             show();
             draw();
         });
