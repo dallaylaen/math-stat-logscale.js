@@ -11,8 +11,9 @@
 Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">logscale statistics library</a>.
 </div>
 <div>
-    <a class="nav" href="#" onclick="saveStat()">save</a>
-    <a class="nav" href="#" onclick="loadStat()">load</a>
+    <a class="nav" href="#" onclick="saveStat(); return false;">save</a>
+    <a class="nav" href="#" onclick="loadStat(); return false;">load</a>
+    <a class="nav" href="#" onclick="reset(); return false;">reset</a>
 </div>
 
 <canvas id="draw" style="border: solid red 1px"></canvas>
@@ -27,21 +28,20 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
 <button onclick="addQuery()">add...</button>
 </div>
 
-<div id="add-numbers">
-<p style="color:grey; width: 80%">
+<div id="add-numbers" style="width: 80%">
+<p style="color:grey;">
     Enter code here. Use <tt>stat.add( number, ... )</tt>
     to add numbers to the dataset
     and <tt>data</tt> to refer to uploaded file content (if any).
     See <a href="man/Univariate.html">the manual</a> for the stat object.
 </p>
-<textarea id="code" style="width: 80%; height: 10em">
+<textarea id="code" style="width: 100%; height: 10em">
 for( let i = 0; i<10000; i++) {
     stat.add(-Math.log(Math.random()));
 };
 </textarea><br>
 <input type="file" id="file">
-<button onclick="return run()">Run code</button>
-<button onclick="return reset()">Reset stat</button>
+<button onclick="return run()" class="run">Run code</button>
 </div>
 
 <script>
