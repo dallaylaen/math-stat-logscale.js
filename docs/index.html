@@ -60,10 +60,11 @@ for( let i = 0; i<10000; i++) {
         [ 'min' ],
         [ 'max' ],
         [ 'mean' ],
+        [ 'median' ],
         [ 'stdev', 'standard deviation' ],
         [ 'moment', 'E((x-mean)**(power))', -Infinity, Infinity ],
         [ 'momentAbs', 'E(|x-mean|**(power))', -Infinity, Infinity ],
-        [ 'quantile', 'quantile(0..1)', 0, 1 ],
+        [ 'percentile', 'percentile(0..100)', 0, 100 ],
         [ 'cdf', 'P(value&lt;x)', -Infinity, Infinity ],
         [ 'E', 'E(function)', 'function' ],
     ];
@@ -280,7 +281,7 @@ for( let i = 0; i<10000; i++) {
     addSummary( 'max' );
     addSummary( 'mean' );
     addSummary( 'stdev' );
-    addSummary( 'quantile', 0.5 );
+    addSummary( 'median' );
     reset();
 
 </script>
