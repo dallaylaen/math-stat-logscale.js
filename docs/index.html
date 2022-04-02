@@ -10,7 +10,7 @@
 <div>
 Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">logscale statistics library</a>.
 </div>
-<div>
+<div class="menu">
     <a class="nav" href="#" onclick="saveStat(); return false;">save</a>
     <a class="nav" href="#" onclick="loadStat(); return false;">load</a>
     <a class="nav" href="#" onclick="reset(); return false;">reset</a>
@@ -29,19 +29,21 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
 </div>
 
 <div id="add-numbers" style="width: 80%">
-<p style="color:grey;">
-    Enter code here. Use <tt>stat.add( number, ... )</tt>
-    to add numbers to the dataset
-    and <tt>data</tt> to refer to uploaded file content (if any).
-    See <a href="man/Univariate.html">the manual</a> for the stat object.
-</p>
 <textarea id="code" style="width: 100%; height: 10em">
 for( let i = 0; i<10000; i++) {
     stat.add(-Math.log(Math.random()));
 };
 </textarea><br>
-<input type="file" id="file">
 <button onclick="return run()" class="run">Run code</button>
+<input type="checkbox" id="file-needed" onchange="toggleFileInput(this.checked)">
+<input type="file" id="file" style="display: none">
+<span id="file-help">Attach an input file</span>
+<p style="color:grey;">
+    Enter code above. Use <tt>stat.add( number, ... )</tt>
+    to add numbers to the dataset
+    and <tt>data</tt> to refer to uploaded file content (if any).
+    See <a href="man/Univariate.html">the manual</a> for the stat object.
+</p>
 </div>
 
 <script>
@@ -49,11 +51,15 @@ for( let i = 0; i<10000; i++) {
     const userCode      = document.getElementById('code');
     const canvas        = document.getElementById('draw');
     const inFile        = document.getElementById('file');
+    const inFileHelp    = document.getElementById('file-help');
     const selectQuery   = document.getElementById('query');
     const queryParam    = document.getElementById('query-param');
 
+    document.getElementById('file-needed').checked = false;
+
     let stat;
     let summary = [];
+    let useFile = false;
 
     const availSeed = [
         [ 'count' ],
@@ -97,6 +103,12 @@ for( let i = 0; i<10000; i++) {
         });
     }
 
+    function toggleFileInput(onoff) {
+        useFile = onoff;
+        inFileHelp.style = onoff ? 'display: none' : '';
+        inFile.style = onoff ? '': 'display: none';
+    }
+
     function toggleQueryParam() {
         const name = selectQuery.value;
         if (avail[name][2] === undefined)
@@ -130,7 +142,9 @@ for( let i = 0; i<10000; i++) {
         // TODO isolate via web workers if available
         // TODO fancy error msg
 
-        const promise = inFile.files[0] ? inFile.files[0].text() : Promise.resolve('');
+        const promise = useFile && inFile.files[0]
+            ? inFile.files[0].text()
+            : Promise.resolve('');
 
         promise.then( resolve => {
             let data = '' + resolve;
@@ -176,7 +190,7 @@ for( let i = 0; i<10000; i++) {
                 +'</td><td>'
                 +value
                 +'</td><td>'
-                +'<a href="#" onclick="return delSummary('+i+')">[x]</a>'
+                +'<a href="#" class="nav" onclick="return delSummary('+i+')">x</a>'
                 +'</td>';
 
             summaryTable.appendChild(tr);
