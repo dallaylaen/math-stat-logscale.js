@@ -29,8 +29,8 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
         <td>
             <div><input type="checkbox" onchange="toggle('zoomin', this.checked); zoom.needed = this.checked; display();">zoom in</div>
             <div class="hidden" id="zoomin">
-                min <input id="zoom-min" onchange="zoom.min = this.value"><br>
-                max <input id="zoom-max" onchange="zoom.max = this.value"><br>
+                min <input id="zoom-min" onchange="zoom.min = num(this.value)"><br>
+                max <input id="zoom-max" onchange="zoom.max = num(this.value)"><br>
                 <button onclick="display();">apply</button>
             </div>
         </td>
@@ -300,6 +300,11 @@ for( let i = 0; i<10000; i++) {
             ctx.fillStyle = '#222222';
             ctx.fillText( label,  em*3+width, i*em*2+em*1.5);
         }
+    }
+
+    function num(val) {
+        const x = Number.parseFloat(val);
+        return Number.isNaN(x) ? undefined : x;
     }
 
     // Initialize stuff
