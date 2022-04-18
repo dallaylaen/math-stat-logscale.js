@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Univariate statistical analysis</title>
+    <script src="i/util.js"></script>
     <script src="js/logscale-stat.js"></script>
     <link rel="stylesheet" href="i/main.css">
 </head>
@@ -116,7 +117,7 @@ for( let i = 0; i<10000; i++) {
 
     function toggleQueryParam() {
         const name = selectQuery.value;
-        toggle( queryParam, avail[name][2]);
+        toggle( queryParam, avail[name][2] !== undefined);
         queryParam.value = '';
     }
 
@@ -299,50 +300,6 @@ for( let i = 0; i<10000; i++) {
     addSummary( 'stdev' );
     addSummary( 'median' );
     reset();
-
-</script>
-<script>
-
-    /* Utility functions */
-
-    function download(filename, content, ctype) {
-        if (!ctype)
-            ctype = 'application/octet-stream';
-        // TODO also add charset=utf-8 unless binary
-
-        // Shamelessly stolen from https://stackoverflow.com/a/30800715/280449
-        const dataStr = 'data:'+ctype+','+encodeURIComponent( content );
-        const aHref = window.document.createElement('a');
-        aHref.setAttribute("href",     dataStr);
-        aHref.setAttribute("download", filename);
-        window.document.body.appendChild(aHref); // required for firefox
-        aHref.click();
-        aHref.remove();
-    }
-
-    function upload(done) {
-        const inputFile = window.document.createElement('input');
-        inputFile.setAttribute('type',   'file');
-        inputFile.setAttribute('style',  'display: none');
-        inputFile.oninput = function() {
-            this.files[0].text().then( result => {
-                inputFile.remove();
-                done( result );
-            });
-        };
-        window.document.body.appendChild(inputFile); // required for firefox
-        inputFile.click();
-    }
-
-    function toggle(elem, visible) {
-        if (typeof elem === 'string')
-            elem = document.getElementById(elem);
-        if (visible) {
-            elem.classList.remove('hidden');
-        } else {
-            elem.classList.add('hidden');
-        }
-    }
 </script>
 </body>
 </html>
