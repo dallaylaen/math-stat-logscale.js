@@ -27,9 +27,11 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
         </table>
         </td>
         <td>
-            <div><input type="checkbox" onchange="toggle('zoomin', this.checked)">zoom in</div>
+            <div><input type="checkbox" onchange="toggle('zoomin', this.checked); zoom.needed = this.checked; display();">zoom in</div>
             <div class="hidden" id="zoomin">
-                TBD
+                min <input id="zoom-min" onchange="zoom.min = this.value"><br>
+                max <input id="zoom-max" onchange="zoom.max = this.value"><br>
+                <button onclick="display();">apply</button>
             </div>
         </td>
     </tr>
