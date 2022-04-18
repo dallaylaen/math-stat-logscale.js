@@ -24,3 +24,11 @@ button.run {
     padding-left: 2em;
     font-weight: bold;
 }
+
+.hidden {
+    display: none;
+}
+
+.columns td {
+    vertical-align: top;
+}

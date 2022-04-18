@@ -17,14 +17,25 @@ Playground for <a href="https://github.com/dallaylaen/math-stat-logscale.js">log
 </div>
 
 <canvas id="draw" style="border: solid red 1px"></canvas>
-
-<table>
-<tbody id="summary">
-</tbody>
+<table class="columns">
+    <tr>
+        <td>
+        <table>
+        <tbody id="summary">
+        </tbody>
+        </table>
+        </td>
+        <td>
+            <div><input type="checkbox" onchange="toggle('zoomin', this.checked)">zoom in</div>
+            <div class="hidden" id="zoomin">
+                TBD
+            </div>
+        </td>
+    </tr>
 </table>
 <div>
 <select id="query" onchange="toggleQueryParam()"></select>
-<input id="query-param" style="display: none">
+<input id="query-param" class="hidden">
 <button onclick="addQuery()">add...</button>
 </div>
 
@@ -35,8 +46,8 @@ for( let i = 0; i<10000; i++) {
 };
 </textarea><br>
 <button onclick="return run()" class="run">Run code</button>
-<input type="checkbox" id="file-needed" onchange="toggleFileInput(this.checked)">
-<input type="file" id="file" style="display: none">
+<input type="checkbox" id="file-needed" onchange="useFile = this.checked; toggle('file', useFile); toggle('file-help', !useFile);">
+<input type="file" id="file" class="hidden">
 <span id="file-help">Attach an input file</span>
 <p style="color:grey;">
     Enter code above. Use <tt>stat.add( number, ... )</tt>
@@ -103,18 +114,9 @@ for( let i = 0; i<10000; i++) {
         });
     }
 
-    function toggleFileInput(onoff) {
-        useFile = onoff;
-        inFileHelp.style = onoff ? 'display: none' : '';
-        inFile.style = onoff ? '': 'display: none';
-    }
-
     function toggleQueryParam() {
         const name = selectQuery.value;
-        if (avail[name][2] === undefined)
-            queryParam.style = 'display: none';
-        else
-            queryParam.style = '';
+        toggle( queryParam, avail[name][2]);
         queryParam.value = '';
     }
 
@@ -332,6 +334,15 @@ for( let i = 0; i<10000; i++) {
         inputFile.click();
     }
 
+    function toggle(elem, visible) {
+        if (typeof elem === 'string')
+            elem = document.getElementById(elem);
+        if (visible) {
+            elem.classList.remove('hidden');
+        } else {
+            elem.classList.add('hidden');
+        }
+    }
 </script>
 </body>
 </html>
