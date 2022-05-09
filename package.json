@@ -1,5 +1,5 @@
 {
-  "name": "math-stat-logscale",
+  "name": "stats-logscale",
   "version": "1.0.0",
   "description": "Approximate statistical analysis using logarithmic bins",
   "main": "index.js",
@@ -7,8 +7,13 @@
     "test": "nyc mocha"
   },
   "keywords": [
+    "descriptive",
     "math",
-    "statistics"
+    "mean",
+    "median",
+    "percentile",
+    "statistics",
+    "univariate"
   ],
   "devDependencies": {
     "chai": "^4.3.4",
