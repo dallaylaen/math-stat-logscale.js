@@ -36,6 +36,7 @@ describe( 'shorten', () => {
         [ 1.9999, 2.0001, 2 ],
         [ -0.1, 1.1, 0 ],
         [ -1.11, -1.08, -1.1 ],
+        [ 11998, 12041, 12000 ],
     ];
     for( let pair of cases ) {
         const x = shorten(pair[0], pair[1]);
