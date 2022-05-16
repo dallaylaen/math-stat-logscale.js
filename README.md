@@ -1,4 +1,4 @@
-# math-stat-logscale
+# stats-logscale
 
 # DESCRIPTION
 
@@ -96,7 +96,7 @@ stat.histogram({scale: 70, count:20})
 
 ```
 
-See also the [playground](https://dallaylaen.github.io/math-stat-logscale.js/).
+See also the [playground](https://dallaylaen.github.io/stats-logscale-js/).
 
 # COPYRIGHT AND LICENSE
 
