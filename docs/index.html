@@ -27,10 +27,11 @@ Playground for <a href="https://github.com/dallaylaen/stats-logscale-js">logscal
         </table>
         </td>
         <td>
-            <div><input type="checkbox" onchange="toggle('zoomin', this.checked); zoom.needed = this.checked; display();">zoom in</div>
+            <div><input id="zoom-needed" type="checkbox" onchange="toggle('zoomin', this.checked); zoom.needed = this.checked; display();" onload="this.checked=false">zoom in</div>
             <div class="hidden" id="zoomin">
                 min <input id="zoom-min" onchange="zoom.min = num(this.value)"><br>
                 max <input id="zoom-max" onchange="zoom.max = num(this.value)"><br>
+                fun <input id="zoom-transform" onchange="zoom.transform = eval(this.value)"><br>
                 <button onclick="display();">apply</button>
             </div>
         </td>
@@ -70,6 +71,7 @@ for( let i = 0; i<10000; i++) {
     const queryParam    = document.getElementById('query-param');
 
     document.getElementById('file-needed').checked = false;
+    document.getElementById('zoom-needed').checked = false;
 
     // Zoom options
     const zoom = {};
@@ -90,6 +92,7 @@ for( let i = 0; i<10000; i++) {
         [ 'percentile', 'percentile(0..100)', 0, 100 ],
         [ 'cdf', 'P(value&lt;x)', -Infinity, Infinity ],
         [ 'E', 'E(function)', 'function' ],
+        [ 'sumOf', 'sumOf(function)', 'function' ],
     ];
     const avail = {};
 
