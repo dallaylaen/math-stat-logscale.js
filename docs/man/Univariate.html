@@ -747,7 +747,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line261">line 261</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -788,6 +788,404 @@
     <dd>
         
 <span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">(args<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Univariate.html">Univariate</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    create a copy of sample object, possibly modifying precision
+  settings and/or filtering data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>precision</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Override absolute precision</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>base</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Override relative precision</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Filter values less than this</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Filter values greater than this</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ltrim</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Filter values less than Xth percentile</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rtrim</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Filter values greater than 100-Xth percentile</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line107">line 107</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    copy of the original object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Univariate.html">Univariate</a></span>
 
 
     </dd>
@@ -857,7 +1255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line108">line 108</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1016,7 +1414,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line145">line 145</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line193">line 193</a>
     </li></ul></dd>
     
 
@@ -1124,7 +1522,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line95">line 95</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -1357,7 +1755,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line317">line 317</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -1470,7 +1868,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line129">line 129</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -1580,7 +1978,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line153">line 153</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -1687,7 +2085,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line251">line 251</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -1799,7 +2197,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line118">line 118</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -2001,7 +2399,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line178">line 178</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -2211,7 +2609,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line192">line 192</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -2367,7 +2765,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line242">line 242</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -2526,7 +2924,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line208">line 208</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -2646,7 +3044,7 @@ stdev = sqrt( E<(x - E<x>)**2> * n/(n-1) )
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line163">line 163</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -2695,6 +3093,169 @@ stdev = sqrt( E<(x - E<x>)**2> * n/(n-1) )
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="sumOf"><span class="type-signature"></span>sumOf<span class="signature">(fun)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sum of arbitrary function over the sample.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fun</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number->Number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line181">line 181</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>stat.sumOf( x => 1 ); // same as stat.count()
+  </code></pre>
+
+    <pre class="prettyprint"><code>stat.sumOf( x => x ); // same as stat.count() * stat.mean()</code></pre>
 
 
 
@@ -2756,7 +3317,7 @@ stdev = sqrt( E<(x - E<x>)**2> * n/(n-1) )
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line82">line 82</a>
+        <a href="univariate.js.html">univariate.js</a>, <a href="univariate.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -2831,7 +3392,7 @@ stdev = sqrt( E<(x - E<x>)**2> * n/(n-1) )
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Mar 30 2022 17:27:47 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun May 22 2022 23:03:17 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
