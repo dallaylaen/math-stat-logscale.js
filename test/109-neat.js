@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require( 'chai' );
-const { Univariate } = require( '../index.js' );
+const { Univariate, Binning } = require( '../index.js' );
 
 describe ( 'Univariate.neat', () => {
     const uni = new Univariate();
@@ -45,3 +45,31 @@ describe ( 'Univariate.neat', () => {
         done();
     });
 });
+
+describe ( 'Univariate.neat method list', () => {
+    // This checks that all query methods have a .neat counterpart
+
+    // Skip methods not for querying
+    const skip = new Set( [
+        'add',
+        'addWeighted',
+        'clone',
+        'getBins',   // TODO
+        'histogram', // TODO
+        'toJSON',
+    ] );
+
+    // Also skip private methods
+    const list = Object.getOwnPropertyNames( Univariate.prototype )
+        .filter( s => !s.match(/^_/) )
+        .filter( s => !skip.has(s) );
+
+    const proto = Object.getPrototypeOf( new Univariate().neat );
+
+    list.forEach( name => it( 'has proxy for '+name, done => {
+        expect( proto[name] ).to.be.a( 'function' );
+        done();
+    }));
+
+});
+
