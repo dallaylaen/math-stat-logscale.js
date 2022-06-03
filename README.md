@@ -75,6 +75,14 @@ stat.neat.median();
 
 stat.clone( { min: 0.5, max: 0.7 } );
 
+// Serialize, deserialize, and combine data from multiple sources
+
+const str = JSON.stringify(stat);
+// send over the network here
+const copy = new Univariate (JSON.parse(str));
+mainStat.addWeighted( copy.getBins() );
+mainStat.addWeighted( JSON.parse(str).bins ); // ditto
+
 // Create histograms and plot data.
 
 stat.histogram({scale: 768, count:1024});
