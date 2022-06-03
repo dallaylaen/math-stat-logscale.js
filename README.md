@@ -5,37 +5,31 @@
 A memory-efficient approximate statistical analysis tool
 using logarithmic binning.
 
-* can be used both in a browser or in a standalone app;
+* data is split into bins (aka buckets),
+linear close to zero and logarithmic for large numbers (hence the name),
+thus maintaining desired absolute and relative precision.
 
-* allows to specify absolute & relative precision;
+* can calculate mean, variance, median, moments, percentiles,
+cumulative distribution function (i.e. probability that a value is less than x),
+and expected values of arbitrary functions over the sample.
 
-* can add numbers to sample one-by-one or with weights;
+* can generate histograms for plotting the data.
 
-* can calculate mean, moments, quantiles, and probabilities;
+* all calculated values are cached. Cache is reset upon adding new data.
 
-* can calculate expected value of an arbitrary function over the sample;
+* (almost) every function has a "neat" counterpart which rounds the result
+to the shortest possible number within the precision bounds. 
+E.g. `foo.mean() // 1.0100047`, but `foo.neat.mean() // 1.01`.
 
-* can generate histograms of the sample;
-
-* is (de)serialiazble, multiple smaples can be combined into one.
-
-# HOW IT WORKS
-
-The real numbers are split into intervals, or bins (aka buckets).
-All numbers in the sample are rounded towards the center
-of their respective bins, and only the counts are stored.
-
-The bin size depends on the relative and absolute precision or the sample,
-hence the _logscale_ in the name.
-
-This allows to operate on very large samples
-with reasonable speed and memory usage.
+* is (de)serializable, multiple samples can be combined into one.
 
 # USAGE
 
 ```javascript
 const { Univariate } = require( 'stats-logscale' );
 
+// Specify absolute/relative precision in the constructor.
+// The defaults are 1e-9 and 1.001, respectively.
 const stat = new Univariate({precision: 0.001, base: 1.001});
 
 // Adding data: one by one, ...
@@ -43,9 +37,10 @@ for (let i = 1; i<1000; i++)
     stat.add(Math.random() * Math.random());
 
 // ... multiple values at once, ...
-stat.add( 3, 14, 15, 9, 26, 53 );
+// Strings are fine, too (but non-numeric ones will cause an exception)
+stat.add( '3', '14', '15', 9, 26, 53 );
 
-// ... or as an array of pairs
+// ... or as an array of (value, weight) pairs
 stat.addWeighted( [[1.1, 10], [2.2, 5], [3.3, 3]] );
 
 // Query data. Each value is cached once requested.
