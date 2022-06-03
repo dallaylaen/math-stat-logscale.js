@@ -1,0 +1,21 @@
+
+
+1.0.4   Fri Jun 3 2022
+    - skewness, kurtosis, and momentStd(n) := moment(n) / stdev**n
+    - add `transform` param to `clone`
+    - add sumOf(x => x) which integrates arbitrary function over the sample
+
+
+1.0.3   Mon May 16 2022
+    - fix bug in number shortening (again)
+
+1.0.2   Mon May 16 2022
+    - fix bug in number shortening
+
+
+1.0.0   Mon May 16 2022
+    - initial release with binning and stuff
+    - add, addWeighted
+    - clone, toJSON
+    - mean, median, stdev, percentile, moment, momentAbs, min, max, cdf
+    - histogram
