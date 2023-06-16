@@ -37,4 +37,18 @@ describe( 'Univariate.toJSON', () => {
 
         done();
     });
+
+    it('supports versioning', done => {
+        const stat = new Univariate();
+        const raw = stat.toJSON();
+
+        const meta = require('../package.json');
+        const minmaj = meta.version.match(/^\d+\.\d+/)[0];
+        expect(typeof minmaj).to.equal('string');
+
+        const prefix = '^stats-logscale\/univariate@';
+        expect(raw.version).to.match(new RegExp(prefix + minmaj.replace(/\./g, '\\.')));
+
+        done();
+    })
 });
