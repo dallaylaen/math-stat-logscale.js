@@ -1,3 +1,8 @@
+# don't include into npm distro only
+docs/
+aux/
+
+# the below is a copy of gitignore
 .*.sw[pon]
 .nyc*
 coverage
@@ -6,5 +11,6 @@ package-lock.json
 out
 *.skip
 *.skip.*
-docs/
-aux/
+*.out
+*.out.json
+.idea
