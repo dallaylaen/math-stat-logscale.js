@@ -114,10 +114,21 @@ for( let i = 0; i<10000; i++) {
 
     function loadStat() {
         upload(raw => {
-            const state = JSON.parse( raw );
-            stat = new logstat.Univariate( state.sample );
-            userCode.value = state.code;
-            summary = state.summary;
+            let userData = JSON.parse( raw );
+            if (
+                typeof userData.precision === 'number'
+                && typeof userData.base === 'number'
+                && Array.isArray(userData.bins)) {
+                    // we've been given just the statistics object
+                    userData = {
+                        sample: userData,
+                        summary, // preserve current one
+                        code: '/* user-supplied data */'
+                    }
+            };
+            stat = new logstat.Univariate( userData.sample );
+            userCode.value = userData.code;
+            summary = userData.summary;
             display();
         });
     }
