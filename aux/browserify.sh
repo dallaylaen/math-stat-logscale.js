@@ -3,7 +3,7 @@
 set -ex
 
 SRC=./index.js
-DST=docs/js
+DST=docs/js/build
 MODULE=logscale-stat
 
 webpack-cli "$SRC" --mode development -o "$DST"
