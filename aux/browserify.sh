@@ -12,6 +12,6 @@ compile() {
   mv -f "$DST"/main.js "$DST/$2".min.js
 }
 
-compile ./index.js logscale-stat
+compile ./index.js stats-logscale
 
 
