@@ -13,5 +13,6 @@ compile() {
 }
 
 compile ./index.js stats-logscale
+compile ./extras.js stats-logscale-extras
 
 
