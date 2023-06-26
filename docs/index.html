@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Univariate statistical analysis</title>
+
+    <link rel="stylesheet" href="3rd-party/bootstrap-3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="i/main.css">
+
+    <script src="3rd-party/bootstrap-3.4.1/js/bootstrap.js"></script>
     <script src="i/util.js"></script>
     <script src="js/build/stats-logscale.js"></script>
     <script src="js/build/stats-logscale-extras.js"></script>
-    <link rel="stylesheet" href="i/main.css">
 </head>
 <body>
-<div>
-Playground for <a href="https://github.com/dallaylaen/stats-logscale-js">logscale statistics library</a>.
-</div>
+
 <div class="menu">
     <a class="nav" href="#" onclick="saveStat(); return false;">save</a>
     <a class="nav" href="#" onclick="loadStat(); return false;">load</a>
@@ -60,6 +63,10 @@ for( let i = 0; i<10000; i++) {
     and <tt>data</tt> to refer to uploaded file content (if any).
     See <a href="man/Univariate.html">the manual</a> for the stat object.
 </p>
+</div>
+<div>
+    Powered by <a href="https://github.com/dallaylaen/stats-logscale-js">stats-logscale</a>
+    library, also available via npm.
 </div>
 
 <script>
