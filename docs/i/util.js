@@ -39,3 +39,7 @@
         }
     }
 
+    function num(val) {
+        const x = Number.parseFloat(val);
+        return Number.isNaN(x) ? undefined : x;
+    }
