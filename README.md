@@ -1,9 +1,12 @@
 # stats-logscale
 
-# DESCRIPTION
-
 A memory-efficient approximate statistical analysis tool
 using logarithmic binning.
+
+![Example: repeated setTimeout(0) execution times](example/images/settimeout-duration-distribution.png)
+_Example: repeated setTimeout(0) execution times_
+
+# DESCRIPTION
 
 * data is split into bins (aka buckets),
 linear close to zero and logarithmic for large numbers (hence the name),
