@@ -33,9 +33,18 @@
         <td>
             <div><input id="zoom-needed" type="checkbox" onchange="toggle('zoomin', this.checked); zoom.needed = this.checked; display();" onload="this.checked=false">zoom in</div>
             <div class="hidden" id="zoomin">
-                min <input id="zoom-min" onchange="zoom.min = num(this.value)"><br>
-                max <input id="zoom-max" onchange="zoom.max = num(this.value)"><br>
-                fun <input id="zoom-transform" onchange="zoom.transform = eval(this.value)"><br>
+                <div>
+                    min/max
+                    <input id="zoom-min" onchange="zoom.min = num(this.value)">
+                    <input id="zoom-max" onchange="zoom.max = num(this.value)">
+                </div>
+                <div>
+                    trim (%)
+                    <input id="zoom-min" onchange="zoom.ltrim = num(this.value)">
+                    <input id="zoom-max" onchange="zoom.rtrim = num(this.value)">
+                </div>
+                <div><input type="checkbox" onchange="zoom.winsorize = this.checked">winsorize (truncate data points outside limits instead of dropping them)</div>
+                <div>transform (Number=>Number) <input id="zoom-transform" onchange="zoom.transform = eval(this.value)"></div>
                 <button onclick="display();">apply</button>
             </div>
         </td>
