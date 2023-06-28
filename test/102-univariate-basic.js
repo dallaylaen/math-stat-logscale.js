@@ -119,4 +119,33 @@ describe ( 'Univariate', () => {
         expect( uni.getBins().length ).to.be.within( 100, 105 );
         done();
     });
+
+    it ('returns undefs when no data is available', done => {
+        const uni = new Univariate();
+
+        expect(uni.min()).to.equal(undefined);
+        expect(uni.max()).to.equal(undefined);
+        expect(uni.stdev()).to.equal(undefined);
+        expect(uni.mean()).to.equal(undefined);
+        expect(uni.median()).to.equal(undefined);
+        expect(uni.skewness()).to.equal(undefined);
+        expect(uni.kurtosis()).to.equal(undefined);
+
+        done();
+    });
+
+    it ('returns undefs when too little data is available', done => {
+        const uni = new Univariate({precision: 1});
+        uni.add(0);
+
+        expect(uni.min()).to.equal(-0.5);
+        expect(uni.max()).to.equal(+0.5);
+        expect(uni.stdev()).to.equal(undefined);
+        expect(uni.mean()).to.equal(0);
+        expect(uni.median()).to.equal(0);
+        expect(uni.skewness()).to.equal(undefined);
+        expect(uni.kurtosis()).to.equal(undefined);
+
+        done();
+    });
 });
