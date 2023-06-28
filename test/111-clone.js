@@ -24,6 +24,12 @@ describe( 'Univariate.clone', () => {
         done();
     });
 
+    it( 'handles trim & winsorize', done => {
+        const copy = uni.clone({ltrim: 25, rtrim:25, winsorize: true});
+        expect( copy.getBins() ).to.deep.equal( [[2,2], [3,1], [4,2]] );
+        done();
+    });
+
     it( 'can transform', done => {
         const copy = uni.clone({transform: x => x*x});
         expect( copy.getBins() ).to.deep.equal( [[1,1], [4,1], [9,1], [16,1], [25,1]] );
