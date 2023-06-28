@@ -1,4 +1,15 @@
 
+Wed Jun 28 2023 v1.0.5
+    - addWeighted() can now "forget" data points via negative weights
+    - Add winsorize:boolean parameter to clone() so that data points outside limits
+      are truncated instead of discarded
+    - Add version: field to toJSON() to ensure we're actually saving/loading a proper Univariate object
+    - Add browser-only univariateToPng() function to the package
+    - Move webified files to 
+      https://dallaylaen.github.io/stats-logscale-js/js/build/stats-logscale.js
+      and https://dallaylaen.github.io/stats-logscale-js/js/build/stats-logscale.min.js
+    - Increase test coverage + better types in docs
+
 
 1.0.4   Fri Jun 3 2022
     - skewness, kurtosis, and momentStd(n) := moment(n) / stdev**n
