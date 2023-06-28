@@ -30,6 +30,8 @@
 
 const { Binning } = require( './binning.js' );
 
+const version = 'stats-logscale/univariate@1.0'; // semver w/o patch part
+
 /**
  *  @classdesc Univariate statistical distribution analysis tool
  *  It works by sorting data into bins.
@@ -41,9 +43,9 @@ const { Binning } = require( './binning.js' );
 class Univariate extends Binning {
     /**
      * @param {Object} args
-     * @param {Number} args.base      Must be between 1 and 1.5. Default is 1.001
-     * @param {Number} args.precision Must be positive. Default is 1E-9.
-     * @param {Array}  args.bins      See addWeighted() for description
+     * @param {Number} [args.base]      Must be between 1 and 1.5. Default is 1.001
+     * @param {Number} [args.precision] Must be positive. Default is 1E-9.
+     * @param {Array}  [args.bins]      See addWeighted() for description
      */
     constructor (args = {}) {
         super(args);
@@ -82,17 +84,17 @@ class Univariate extends Binning {
 
     /**
      * @desc Add values to sample, with weights.
-     * @param {pair[]} pairs Each pair is an array of two numbers:
-     * [ value, quantity ]
+     * @param {number[][]} pairs Each pair is an array with two numbers:
+     * [ value, quantity ]. Negative quantity is allowed and means we're erasing data.
      * @returns {Univariate} this (chainable)
      * @example
      * stat.addWeighted( [ [0.1, 5], [0.2, 4], [0.3, 3] ] )
      * // adds 0.1 x 5, 0.2 x 4, 0.3 x 3
      */
-    addWeighted ( data ) {
+    addWeighted ( pairs ) {
         this._cache = {};
         // TODO validate
-        data.forEach( entry => {
+        pairs.forEach( entry => {
             const x = entry[0];
             const n = Number.parseFloat( entry[1] ); // fractional weights possible
             if (Number.isNaN(n))
@@ -103,6 +105,12 @@ class Univariate extends Binning {
                 this.storage[bin] = [0, bin];
             this.storage[bin][0] += n;
             this._count += n;
+
+            if (this.storage[bin][0] &lt;= 0) {
+                // Negative weight => we've "forgetting" data
+                this._count -= this.storage[bin][0];
+                delete this.storage[bin];
+            }
         });
         return this;
     }
@@ -114,6 +122,7 @@ class Univariate extends Binning {
      */
     toJSON () {
         return {
+            version,
             precision: this.getPrecision(),
             base:      this.getBase(),
             bins:      this.getBins(),
@@ -130,7 +139,9 @@ class Univariate extends Binning {
      *   @param {Number} [args.max] Filter values greater than this
      *   @param {Number} [args.ltrim] Filter values less than Xth percentile
      *   @param {Number} [args.rtrim] Filter values greater than 100-Xth percentile
-     *   @param {Function} [args.transform] Apply function to sample data
+     *   @param {Boolean} [args.winsorize] If a data point doesn't fit the bounds,
+     *       truncate it instead of discarding.
+     *   @param {function(Number): Number} [args.transform] Apply function to sample data
      *   @returns {Univariate} copy of the original object
      */
     clone (args = {}) {
@@ -169,7 +180,23 @@ class Univariate extends Binning {
             this.percentile( 100 - (args.rtrim ?? 0) ),
         );
         // TODO allow to skip buckets with too little data - param name???
-        return this._cache.data.filter( x => x[0] >= min &amp;&amp; x[0] &lt;= max );
+
+        if (!args.winsorize)
+            return this._cache.data.filter( x => x[0] >= min &amp;&amp; x[0] &lt;= max );
+
+        const first = [this.round(min), 0];
+        const last  = [this.round(max), 0];
+        const out = [first];
+        for (const [bin, count] of this._cache.data) {
+            if (bin &lt;= first[0])
+                first[1] += count;
+            else if (bin >= last[0])
+                last[1] += count;
+            else out.push([bin, count]);
+        }
+        if (last[1] > 0)
+            out.push(last);
+        return out;
     }
 
     /**
@@ -220,7 +247,7 @@ class Univariate extends Binning {
 
     /**
      *  @desc Calculate expected value of a given function over the sample.
-     *  @param {Function} fun Number->Number
+     *  @param {function(Number): Number} fun
      *  @returns {Number}
      */
     E (fun) {
@@ -253,8 +280,8 @@ class Univariate extends Binning {
     /**
      *  @desc Skewness is a measure of the asymmetry of a distribution.
      *  Equals to 3rd standardized moment times n^2/(n-1)(n-2) correction
-     *  Undeifned if there are less than 3 data points.
-     *  @returns {Number}
+     *  Undefined if there are less than 3 data points.
+     *  @returns {Number | undefined}
      */
     skewness () {
         const n = this.count();
@@ -269,7 +296,7 @@ class Univariate extends Binning {
      *        contained in the "tails".
      *        Equals to 4th standardized moment minus 3,
      *        with a correction.
-     *  @returns {Number}
+     *  @returns {Number | undefined}
      */
     kurtosis () {
         const n = this.count();
@@ -384,49 +411,41 @@ class Univariate extends Binning {
      *  @returns {Number} probability
      */
     cdf (x) {
-        return this.rawCdf(x) / this._count;
+        return this._rawCdf(x) / this._count;
     }
 
-    rawCdf (x) {
-        // do nothing if possible
-        if (!this._count || x &lt;= this.min())
-            return 0;
-        if ( x >= this.max())
-            return this._count;
-
+    _rawCdf (x) {
         const cumulative = this._cumulative();
         const lookup = this.round(x);
 
         // binary search
-        // Look for the rightmost bucket &lt;= round(x)
+        // Look for the leftmost bucket >= round(x)
+        // Count = total to the left of that bucket + maybe partial
         let l = 0;
         let r = cumulative.length;
 
-        // console.log( 'target='+x );
-        while (l + 1 &lt; r) {
+        while (l &lt; r) {
             const m = Math.floor((r + l) / 2);
             // console.log('['+l+', '+r+'): mid='+m+'; bin=', cumulative[m]);
-            if (cumulative[m][0] &lt;= lookup)
-                l = m;
+            if (cumulative[m][0] &lt; lookup)
+                l = m + 1;
             else
                 r = m;
         }
 
         // console.log('Looked for '+x+', found: ', [cumulative[l - 1], cumulative[l]] );
 
-        // we fell between buckets - ok great
-        if (lookup > cumulative[l][0])
-            return cumulative[l][2];
+        if (l >= cumulative.length)
+            return this._count;
 
-        // Sum of buckets prior to the one x is in
-        // plus the _part_ of bucket left of x
-        // divided by total count
-        return (
-            cumulative[l][1]
-                + (cumulative[l][2] - cumulative[l][1]) // x'th bucket total
-                    * (x - this.lower(x))               // part left of x
-                    / (this.upper(x) - this.lower(x))   // bucket width
-        );
+        const prior = l > 0 ? cumulative[l - 1][2] : 0;
+        const partial = lookup !== cumulative[l][0]
+            ? 0
+            : (cumulative[l][2] - cumulative[l][1]) // x'th bucket total
+                * (x - this.lower(x))               // part left of x
+                / (this.upper(x) - this.lower(x))   // bucket width
+
+        return prior + partial;
     }
 
     /**
@@ -451,13 +470,13 @@ class Univariate extends Binning {
         let edge = min;
         const step = (max - min) / count;
         for (let i = 0; i &lt; count; i++)
-            hist.push( [this.rawCdf(edge + step), edge, edge += step] );
+            hist.push( [this._rawCdf(edge + step), edge, edge += step] );
 
         // Differenciate (must go backward!)
         for (let i = hist.length; i-- > 1; )
             hist[i][0] -= hist[i - 1][0];
 
-        hist[0][0] -= this.rawCdf(min);
+        hist[0][0] -= this._rawCdf(min);
 
         if (args.scale) {
             // scale to a factor e.g. for drawing pictures
@@ -490,20 +509,27 @@ class Univariate extends Binning {
     }
 }
 
+// Memoize! Replace methods with cached counterparts
+// '+' at the end if method has arguments
 [
     'cdf+',
+    'kurtosis',
     'max',
     'mean',
     'min',
     'moment+',
     'momentAbs+',
+    'momentStd+',
     'quantile+',
+    'skewness',
     'stdev',
 ].forEach( method => {
     const hasArg = !!method.match(/\+/);
     if (hasArg)
         method = method.replace( '+', '' );
     const orig = Univariate.prototype[method];
+    if (typeof orig !== 'function')
+        throw new Error('method "' + method + '" is cached but never defined');
     Univariate.prototype[method] = hasArg
         ? function (...arg) {
             if (this._count === 0)
@@ -546,12 +572,15 @@ class Neat {
 
 [
     'E',
+    'kurtosis',
     'mean',
     'median',
     'moment',
     'momentAbs',
+    'momentStd',
     'percentile',
     'quantile',
+    'skewness',
     'stdev',
     'sumOf',
 ].forEach( fun => {
@@ -586,7 +615,7 @@ module.exports = { Univariate };
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Jun 02 2022 13:38:31 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jun 28 2023 13:29:23 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
