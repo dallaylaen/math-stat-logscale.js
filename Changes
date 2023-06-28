@@ -1,4 +1,7 @@
 
+Wed Jun 28 2023 v1.0.6
+    - [repo] Add more fields to package.json (no code changes really)
+
 Wed Jun 28 2023 v1.0.5
     - addWeighted() can now "forget" data points via negative weights
     - Add winsorize:boolean parameter to clone() so that data points outside limits
