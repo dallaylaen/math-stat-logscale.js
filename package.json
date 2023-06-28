@@ -6,6 +6,14 @@
   "scripts": {
     "test": "nyc mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dallaylaen/stats-logscale-js"
+  },
+  "homepage": "https://dallaylaen.github.io/stats-logscale-js/",
+  "bugs": {
+    "url": "https://github.com/dallaylaen/stats-logscale-js/issues"
+  },
   "keywords": [
     "descriptive",
     "math",
@@ -15,6 +23,8 @@
     "statistics",
     "univariate"
   ],
+  "dependencies": {
+  },
   "devDependencies": {
     "chai": "^4.3.4",
     "eslint": "^7.32.0",
@@ -27,6 +37,6 @@
     "nyc": "^15.1.0",
     "webpack": "^5.65.0"
   },
-  "author": "Konstantin Uvarin",
+  "author": "Konstantin Uvarin <khedin@gmail.com> (https://github.com/dallaylaen)",
   "license": "MIT"
 }
