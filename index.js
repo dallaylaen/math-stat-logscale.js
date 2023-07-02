@@ -1,15 +1,14 @@
-'use strict';
-
 (() => {
     const { Binning } = require('./lib/binning.js');
     const { Univariate } = require('./lib/univariate.js');
 
-    // TODO better name
-    // Must be short & reflect (math, statistics, logarithm)
+    // TODO should we even bother doing it? Use window.Univariate?.. Just module.exports?..
+    // Name must be short & reflect (math, statistics, logarithm)
     const logstat = { Binning, Univariate };
 
+    // We may have both window & module if running as a dependency under webpack
     if (typeof window !== 'undefined')
         window.logstat = logstat;
-    else
+    if (typeof module === 'object')
         module.exports = logstat;
 })();
