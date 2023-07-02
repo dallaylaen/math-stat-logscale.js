@@ -4,8 +4,8 @@ const { Univariate } = require( '../index.js' );
 
 const perf = new Univariate({precision: 0.01});
 
-let measurements = 100;
-let points = 10000;
+const measurements = 100;
+const points = Number.parseInt(process.argv[2] ?? 0) || 1000;
 
 for (let i = 0; i < measurements; i++) {
     const t0 = new Date();
