@@ -32,3 +32,11 @@ button.run {
 .columns td {
     vertical-align: top;
 }
+
+.summary td {
+    padding: 2px;
+}
+
+.code {
+    font-family: monospace;
+}
