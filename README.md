@@ -6,7 +6,7 @@ using logarithmic binning.
 ![Example: repeated setTimeout(0) execution times](example/images/settimeout-duration-distribution.png)
 _Example: repeated setTimeout(0) execution times_
 
-# DESCRIPTION
+## Description
 
 * data is split into bins (aka buckets),
 linear close to zero and logarithmic for large numbers (hence the name),
@@ -28,7 +28,7 @@ E.g. `foo.mean() // 1.0100047`, but `foo.neat.mean() // 1.01`;
 
 * can split out partial data or combine multiple samples into one.
 
-# USAGE
+## Usage
 
 Creating the sample container:
 
@@ -128,7 +128,23 @@ See the [playground](https://dallaylaen.github.io/stats-logscale-js/).
 
 See also [full documentation](https://dallaylaen.github.io/stats-logscale-js/man/Univariate.html).
 
-# COPYRIGHT AND LICENSE
+## Performance
+
+Data inserts are optimized for speed and
+querying is cached where possible.
+The script [example/speed.js](example/speed.js) 
+can be used to benchmark the midule on your system.
+
+Memory usage for a dense sample spanning 6 orders of magnitude
+was around 1.6MB in Chromium,
+~230KB for the data itself + ~1.2MB for the cache.  
+
+## Bugs
+
+Please report bugs and request features via the 
+[github bugtracker](https://github.com/dallaylaen/stats-logscale-js/issues).
+
+## Copyright and license
 
 Copyright (c) 2022-2023 Konstantin Uvarin
 
