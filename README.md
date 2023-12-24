@@ -130,10 +130,10 @@ See also [full documentation](https://dallaylaen.github.io/stats-logscale-js/man
 
 ## Performance
 
-Data inserts are optimized for speed and
-querying is cached where possible.
+Data inserts are optimized for speed,
+and querying is cached where possible.
 The script [example/speed.js](example/speed.js) 
-can be used to benchmark the midule on your system.
+can be used to benchmark the module on your system.
 
 Memory usage for a dense sample spanning 6 orders of magnitude
 was around 1.6MB in Chromium,
