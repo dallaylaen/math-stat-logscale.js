@@ -10,45 +10,60 @@ _Example: repeated setTimeout(0) execution times_
 
 * data is split into bins (aka buckets),
 linear close to zero and logarithmic for large numbers (hence the name),
-thus maintaining desired absolute and relative precision.
+thus maintaining desired absolute and relative precision;
 
 * can calculate mean, variance, median, moments, percentiles,
 cumulative distribution function (i.e. probability that a value is less than x),
-and expected values of arbitrary functions over the sample.
+and expected values of arbitrary functions over the sample;
 
-* can generate histograms for plotting the data.
+* can generate histograms for plotting the data;
 
-* all calculated values are cached. Cache is reset upon adding new data.
+* all calculated values are cached. Cache is reset upon adding new data;
 
 * (almost) every function has a "neat" counterpart which rounds the result
-to the shortest possible number within the precision bounds. 
-E.g. `foo.mean() // 1.0100047`, but `foo.neat.mean() // 1.01`.
+to the shortest possible number within the precision bounds.
+E.g. `foo.mean() // 1.0100047`, but `foo.neat.mean() // 1.01`;
 
-* is (de)serializable, multiple samples can be combined into one.
+* is (de)serializable;
+
+* can split out partial data or combine multiple samples into one.
 
 # USAGE
 
+Creating the sample container:
+
 ```javascript
 const { Univariate } = require( 'stats-logscale' );
+const stat = new Univariate();
+```
 
-// Specify absolute/relative precision in the constructor.
-// The defaults are 1e-9 and 1.001, respectively.
-const stat = new Univariate({precision: 0.001, base: 1.001});
+**Specifying absolute and relative precision.**
+The defaults are 10<sup>-9</sup> and 1.001, respectivele.
+Less precision = less memory usage
+and faster data querying (but not insertion).
+```javascript
+const stat = new Univariate({base: 1.01, precision: 0.001});
+```
 
-// Adding data: one by one, ...
-for (let i = 1; i<1000; i++)
-    stat.add(Math.random() * Math.random());
+Use _flat_ switch to avoid using logarithmic binning at all:
+```javascript
+// this assumes the data is just integer numbers
+const stat = new Univariate({precision: 1, flat: true});
+```
 
-// ... multiple values at once, ...
-// Strings are fine, too (but non-numeric ones will cause an exception)
-stat.add( '3', '14', '15', 9, 26, 53 );
+**Adding data points**, wither one by one,
+or as _(value, frequency)_ pairs.
+Strings are OK (e.g. after parsing user input)
+but non-numeric values will cause an exception:
+```javascript
+stat.add (3.14);
+stat.add ("Foo"); // Nope!
+stat.add ("3.14 3.15 3.16".split(" "));
+stat.addWeighted([[0.5, 1], [1.5, 3], [2.5, 5]]);
+```
 
-// ... or as an array of (value, weight) pairs
-stat.addWeighted( [[1.1, 10], [2.2, 5], [3.3, 3]] );
-
-// Query data. Each value is cached once requested.
-// The cache is reset upon entering new data.
-
+**Querying data:**
+```javascript
 stat.count();           // number of data points
 stat.mean();            // average
 stat.stdev();           // standard deviation
@@ -59,35 +74,43 @@ stat.cdf(0.5);          // Cumulative distribution function, which means
                         // the probability that a data point is less than 0.5
 stat.moment(power);     // central moment of an integer power
 stat.momentAbs(power);  // < |x-<x>| ** power >, power may be fractional
-stat.E( x => x\*x );    // expected value of arbitrary function
+stat.E( x => x\*x );    // expected value of an arbitrary function
+```
 
-// Round arbitrary numbers
-stat.round(1.7);        // center of respective bucket
-stat.lower(1.7);
-stat.upper(1.7);        // bucket boundaries
-stat.shorten(1.7);      // the shortest number within the bucket
-                        // may be useful for eye-candy
+Each querying primitive has a _"neat"_ counterpart
+that rounds its output to the shortest possible
+decimal number in the respective bin:
 
-// Query data but the returned values are rounded to the shortest number
-//     within the precision bounds
+```javascript
 stat.neat.mean();
 stat.neat.stdev();
 stat.neat.median();
+```
 
-// Extract partial samples
+**Extract partial samples:**
 
+```javascript
 stat.clone( { min: 0.5, max: 0.7 } );
+stat.clone( { ltrim: 1, rtrim: 1 });
+    // cut off outer 1% of data
+stat.clone( { ltrim: 1, rtrim: 1, winsorize: true }});
+    // ditto but truncate outliers instead of discarding
+```
 
-// Serialize, deserialize, and combine data from multiple sources
+Serialize, deserialize, and combine data from multiple sources
 
+```javascript
 const str = JSON.stringify(stat);
 // send over the network here
 const copy = new Univariate (JSON.parse(str));
-mainStat.addWeighted( copy.getBins() );
-mainStat.addWeighted( JSON.parse(str).bins ); // ditto
 
-// Create histograms and plot data.
+main.addWeighted( partialStat.getBins() );
+main.addWeighted( JSON.parse(str).bins ); // ditto
+```
 
+Create histograms and plot data:
+
+```javascript
 stat.histogram({scale: 768, count:1024});
     // this produces 1024 bars of the form
     // [ bar_height, lower_boundary, upper_boundary ]
@@ -99,13 +122,14 @@ stat.histogram({scale: 70, count:20})
     .join('\n')
     // "Draw" a vertical histogram for text console
     // You'll use PNG in production instead, right? Right?
-
 ```
 
-See also the [playground](https://dallaylaen.github.io/stats-logscale-js/).
+See the [playground](https://dallaylaen.github.io/stats-logscale-js/).
+
+See also [full documentation](https://dallaylaen.github.io/stats-logscale-js/man/Univariate.html).
 
 # COPYRIGHT AND LICENSE
 
-Copyright (c) 2022 Konstantin Uvarin
+Copyright (c) 2022-2023 Konstantin Uvarin
 
 This software is free software available under MIT license.
