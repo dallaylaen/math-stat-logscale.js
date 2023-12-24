@@ -4,6 +4,14 @@ const { expect } = require( 'chai' );
 const { Univariate } = require( '../index.js' );
 
 describe( 'Univariate.toJSON', () => {
+    it( 'has base & precision', done => {
+        const json = new Univariate({ base: 1.1, precision: 0.125 }).toJSON();
+
+        expect( json.base ).to.be.within(1.05, 1.15);
+        expect( json.precision ).to.be.within (0.1, 0.15);
+        done();
+    })
+
     it( 'round-trips', done => {
         const orig = new Univariate();
         orig.add( 1,2,3,4,5 );
