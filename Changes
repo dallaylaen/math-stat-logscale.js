@@ -1,4 +1,7 @@
 
+Mon Dec 25 2023 v1.0.8
+    - [api] Add {flat: boolean} flag to new() to stay at linear binning for large values
+
 Sun Jul 02 2023 v1.0.7
     - Rewrite storage from {} to new Map(), get a major (~30%) insertion speedup
     - Make sure code works in the browser when require()'d under webpack or browserify
