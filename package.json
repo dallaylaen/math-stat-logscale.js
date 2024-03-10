@@ -3,6 +3,7 @@
   "version": "1.0.8",
   "description": "Approximate statistical analysis using logarithmic bins",
   "main": "index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "test": "nyc mocha"
   },
