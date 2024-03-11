@@ -1,4 +1,7 @@
 
+Mon Mar 11 2024 v1.0.9
+    - [ts] Add types for typescript users
+
 Mon Dec 25 2023 v1.0.8
     - [api] Add {flat: boolean} flag to new() to stay at linear binning for large values
 

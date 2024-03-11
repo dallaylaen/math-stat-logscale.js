@@ -1,6 +1,6 @@
 {
   "name": "stats-logscale",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Approximate statistical analysis using logarithmic bins",
   "main": "index.js",
   "types": "./types/index.d.ts",
